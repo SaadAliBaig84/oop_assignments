@@ -37,7 +37,7 @@ public:
         return RadiatorID;
     }
 
-    void heats(Room X);
+    void heats(Room *X);
 };
 
 int Radiator::i=0;
@@ -53,39 +53,42 @@ class Room{
     {
         this->roomName=roomName;
         seatingCapacity=12;
-        numRadiators=0;
+        numRadiators=-1;
     }
-
-    string isHeatedBy(Radiator X)
-    {	
-    	if(numRadiators <= 1){
-    		for(int i=0; i<=numRadiators; i++){
-	    		if(X.getRadiatorID() == r[i]->getRadiatorID()){
-	    			return "Already added.\n";
-	    			break;
-				}
+	
+	string isHeatedBy(Radiator *X){	
+    	
+		for(int i=0; i<=numRadiators; i++){
+    		if(X->getRadiatorID() == r[i]->getRadiatorID()){
+    			return "Already added.\n";
 			}
-			r[numRadiators] = &X;
+		}
+		
+		if(numRadiators <= 0){
 			numRadiators++;
+			r[numRadiators] = X;
 			return "Successfully added.\n";
 		}
-    	else{
-    		return "Get lost.\n";
-		}
-    	//if(X.getRadiatorID()==)   
+		else{
+			return "Get lost.\n";
+		}		
+    		
 	}
+	
     
 };
 
-void Radiator::heats(Room X){
-	cout<<X.isHeatedBy(*this)<<endl;	
+void Radiator::heats(Room *X){
+	cout<<X->isHeatedBy(this)<<endl;	
 }
 
 int main()
 {
-    Radiator r1,r2;
+    Radiator r1,r2, r3, r4;
     Room room("room#1");
-    r1.heats(room);
-    r1.heats(room);
+    r1.heats(&room);
+	r2.heats(&room);
+	r3.heats(&room);
+	r2.heats(&room);
+	r4.heats(&room);
 }
-
