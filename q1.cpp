@@ -1,22 +1,26 @@
 #include<iostream>
 #include<string>
 using namespace std;
+
 class Radiator;
+
 class Room;
+
 class Radiator{
     int RadiatorID;
     bool isOn;
+
 public:
+    static int i;
     Radiator()
     {
         isOn=false;
-        static int i=id() ;
+       
         RadiatorID=i;
         i+=15;
-        
+       
     }
-
-    int id()
+    static int id()
     {
         string a;
         int b;
@@ -33,45 +37,65 @@ public:
         return RadiatorID;
     }
 
-    void heats(Radiator X, Room Y);
+    void heats(Room *X);
 };
+int Radiator::i=id();
+
+//int Radiator::i=0;
 
 class Room{
     string roomName;
     int seatingCapacity;
     int numRadiators;
 
-    Radiator r[2];
+    Radiator *r[2];
     public:
     Room(string roomName)
     {
         this->roomName=roomName;
         seatingCapacity=12;
-        numRadiators=0;
+        numRadiators=-1;
     }
 
-    string isHeatedBy(Radiator X, Radiator Y)
-    {
-        if(X.getRadiatorID()==Y.getRadiatorID())
-        {
-            return ("Radiator Already Added.");
-        }
-        else if(X.getRadiatorID()!=Y.getRadiatorID()  && numRadiators<2)
-        {
-            return ("Radiator successfully added.");
-            numRadiators++;
-        }
-        else
-        {
-            return ("Cant add more.");
-        }
-    }
-    
+string isHeatedBy(Radiator *X){
+   
+for(int i=0; i<=numRadiators; i++){
+    if(X->getRadiatorID() == r[i]->getRadiatorID()){
+    return "Radiator already added to room.";
+}
+}
+
+if(numRadiators <= 0)
+{
+numRadiators++;
+r[numRadiators] = X;
+return "Radiator successfully added to room." ;
+}
+else
+{
+return "Cannot add Radiator. Room has a maximum number of radiators.";
+}
+   
+}
+
+   
 };
+
+void Radiator::heats(Room *X)
+{
+cout<<X->isHeatedBy(this)<<endl;
+}
+
 
 int main()
 {
     Radiator r1,r2;
     Room room("room#1");
-    cout<<room.isHeatedBy(r1,r1);
+    r1.heats(&room);
+    r1.heats(&room);
+    r2.heats(&room);
+    r2.heats(&room);
+    // cout<<r1.getRadiatorID();
+
 }
+

@@ -110,11 +110,18 @@ class Ticket{
         cin>>seat_number;
         cout<<"Enter seat number 1-5: "<<endl;
         cin>>row_number;
-        status=1;
+        
+       
+
 
         cout<<"Booking confirmed."<<endl<<endl;
     }
 
+    void checkticket()
+    {
+        if(ticketID!=0)
+        status=1;
+    }
     void display()
     {
         if(status==1)
@@ -148,11 +155,11 @@ int main()
     Movie m1("Terminator","18:30"),m2("Saw","10:15"),m3("Transformers","12:00");
     Ticket t[100];
     int i;
-    int a;
+    int a=0;
     for(;;)
     {
         i=menu();
-        a=0;
+        
         if(i==1)
         {
             m1.display();
